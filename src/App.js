@@ -14,7 +14,6 @@ function App() {
       <Navbar />
       {!hideInstructions && <Popup toggle={hideInstructionsToggle} />}
       test
-      <ImageContainer />
     </Fragment>
   );
 
