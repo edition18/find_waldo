@@ -21,3 +21,70 @@
   border-radius: 5px;
   background: white;
 }
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.right {
+  float: right;
+}
+
+.positioned {
+  position: absolute;
+  /* width: 150px;
+  height: 300px; */
+  margin: auto;
+  border-radius: 5px;
+  background: grey;
+
+  width: 75px;
+  height: 75px;
+  z-index: 3;
+}
+
+.radius {
+  position: absolute;
+  margin: auto;
+  border-radius: 50%;
+  background: brown;
+  border-style: dotted;
+  border-color: white;
+  border-width: 2px;
+  z-index: 2;
+}
+
+.fade_out {
+  animation: fadeOut ease 3s;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+  /* allows me to click through this layer */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+.submenuItem {
+  list-style: none;
+  text-align: center;
+  font-weight: bold;
+}
+
+.submenuItem:hover {
+  background-color: #ffff00;
+  cursor: pointer;
+}
+
+li,
+ul {
+  list-style-type: none;
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+}
