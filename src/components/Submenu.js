@@ -18,15 +18,19 @@ const Submenu = (props) => {
       style={{ left: props.coordinates.x, top: props.coordinates.y }}
     >
       <ul className="submenuUl">
-        {props.searchItems.map((item) => (
-          <li
-            onClick={props.reportSelection}
-            key={uniqid()}
-            className="submenuItem"
-          >
-            {item}
-          </li>
-        ))}
+        {props.answers.length === 0 ? (
+          <li>Loading</li>
+        ) : (
+          props.answers.map((item) => (
+            <li
+              onClick={props.reportSelection}
+              key={uniqid()}
+              className="submenuItem"
+            >
+              {item.name}
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
