@@ -70,11 +70,6 @@ function App() {
     // https://stackoverflow.com/questions/6073505/what-is-the-difference-between-screenx-y-clientx-y-and-pagex-y
   };
 
-  const checkAnswer = () => {
-    // if the click radius touches the coord where it is
-    // being lower bound [x -radii] <= answer.coord.x <= upper bound [x + radii]
-  };
-
   const solutions = [
     { name: "lion", x: 1609, y: 334, correct: false },
     { name: "astronaut", x: 258, y: 176, correct: false },
@@ -153,19 +148,20 @@ function App() {
   const display = (
     <Fragment>
       {radius ? <Radius radii={radii} coordinates={coordinates.current} /> : ""}
-      {submenu ? (
-        <Submenu
-          reportSelection={reportSelection}
-          answers={answers}
-          coordinates={coordinates.current}
-        />
-      ) : (
-        ""
-      )}
+
       <Navbar toggle={hideInstructionsToggle} />
       {!hideInstructions && <Popup toggle={hideInstructionsToggle} />}
       <div onClick={handleClick}>
         <ImageContainer toggleSubmenu={toggleSubmenu} />
+        {submenu ? (
+          <Submenu
+            reportSelection={reportSelection}
+            answers={answers}
+            coordinates={coordinates.current}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </Fragment>
   );

@@ -52,12 +52,14 @@
   border-color: white;
   border-width: 2px;
   z-index: 2;
+  overflow: hidden;
 }
 
 .fade_out {
   animation: fadeOut ease 3s;
   animation-fill-mode: forwards;
   pointer-events: none;
+  overflow: hidden;
   /* allows me to click through this layer */
 }
 
@@ -87,4 +89,8 @@ ul {
   list-style-position: inside;
   margin: 0;
   padding: 0;
+}
+
+.container {
+  overflow: hidden;
 }
