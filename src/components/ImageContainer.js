@@ -5,6 +5,7 @@ const ImageContainer = (props) => {
   return (
     <img
       alt="https://www.innovative-medical.com/hs-fs/hubfs/waldo%202.jpg?width=1024&name=waldo%202.jpg"
+      id="waldo"
       src={picture}
       className="image"
     ></img>

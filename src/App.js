@@ -9,7 +9,6 @@ import firebase from "./firebase";
 function App() {
   var db = firebase.firestore();
 
-  // coordinates is x / zoom level
   const [answers, setAnswers] = useState([]);
   useEffect(() => {
     //populate the answers array if it isn't already populated
@@ -37,7 +36,7 @@ function App() {
   const [submenu, setSubmenu] = useState(false);
   const [radius, setRadius] = useState(false);
 
-  const radii = 65;
+  const radii = 30 / window.devicePixelRatio;
   const coordinates = useRef({
     x: 0,
     y: 0,
@@ -55,15 +54,40 @@ function App() {
   };
 
   const handleClick = (event) => {
+    // these are for showing on screen
     coordinates.current.x = event.pageX;
-    coordinates.current.xLowerBound = event.pageX - radii;
-    coordinates.current.xUpperBound = event.pageX + radii;
     coordinates.current.y = event.pageY;
-    coordinates.current.yLowerBound = event.pageY - radii;
-    coordinates.current.yUpperBound = event.pageY + radii;
 
-    toggleSubmenu();
-    toggleRadius();
+    //actual calculations for if answer is correct
+    const radiiXAllowance = radii / document.getElementById("waldo").width;
+    const radiiYAllowance = radii / document.getElementById("waldo").height;
+    const Xratio =
+      event.nativeEvent.offsetX / document.getElementById("waldo").width;
+    const Yratio =
+      event.nativeEvent.offsetY / document.getElementById("waldo").height;
+    console.log(Xratio);
+    console.log(Yratio);
+    const XratioLower = Xratio - radiiXAllowance;
+    const XratioUpper = Xratio + radiiXAllowance;
+    const YratioLower = Yratio - radiiYAllowance;
+    const YratioUpper = Yratio + radiiYAllowance;
+
+    // const matchSolution = solutions.find(
+    //   (solution) => solution.name === "lion"
+    // );
+    // console.log("lion x " + matchSolution.x);
+    // if (
+    //   XratioLower <= matchSolution.x &&
+    //   matchSolution.x <= XratioUpper &&
+    //   YratioLower <= matchSolution.y &&
+    //   matchSolution.y <= YratioUpper
+    // ) {
+    //   console.log("correct");
+    //   console.log(XratioLower + " " + matchSolution.x + " " + XratioUpper);
+    //   console.log(YratioLower + " " + matchSolution.y + " " + YratioUpper);
+    // }
+    // toggleSubmenu();
+    // toggleRadius();
 
     // must provide coord
     // must toggle a state that triggers popup
@@ -71,40 +95,50 @@ function App() {
   };
 
   const solutions = [
-    { name: "lion", x: 1609, y: 334, correct: false },
-    { name: "astronaut", x: 258, y: 176, correct: false },
-    { name: "hippo", x: 595, y: 800, correct: false },
+    {
+      name: "lion",
+      x: 0.8444561219127693,
+      y: 0.27061105722599416,
+      correct: false,
+    },
+    {
+      name: "astronaut",
+      x: 0.1282186022070415,
+      y: 0.09117361784675072,
+      correct: false,
+    },
+    {
+      name: "hippo",
+      x: 0.2974251182343668,
+      y: 0.7070805043646945,
+      correct: false,
+    },
   ];
 
   const reportSelection = (event) => {
-    console.log("selected " + event.target.innerHTML + " as answer");
-
-    // find the corresponding answer in the array, then check its answer
-
-    const tempArray = answers.slice();
-    let matchedItem = tempArray.find(
-      (item) => item.name.toLowerCase() === event.target.innerHTML.toLowerCase()
-    );
-
-    const adjustedX = matchedItem.x / window.devicePixelRatio;
-    const adjustedY = matchedItem.y / window.devicePixelRatio;
-
-    if (
-      coordinates.current.xLowerBound <= adjustedX &&
-      adjustedX <= coordinates.current.xUpperBound &&
-      coordinates.current.yLowerBound <= adjustedY &&
-      adjustedY <= coordinates.current.yUpperBound
-    ) {
-      console.log("correct");
-      matchedItem = { ...matchedItem, found: true };
-    } else {
-      console.log(matchedItem.x);
-      console.log(matchedItem.y);
-      console.log(coordinates.current.xLowerBound);
-      console.log(coordinates.current.xUpperBound);
-    }
-
-    setAnswers(tempArray);
+    // console.log("selected " + event.target.innerHTML + " as answer");
+    // // find the corresponding answer in the array, then check its answer
+    // const tempArray = answers.slice();
+    // let matchedItem = tempArray.find(
+    //   (item) => item.name.toLowerCase() === event.target.innerHTML.toLowerCase()
+    // );
+    // const adjustedX = event.pageX;
+    // const adjustedY = event.pageY;
+    // if (
+    //   coordinates.current.xLowerBound <= adjustedX &&
+    //   adjustedX <= coordinates.current.xUpperBound &&
+    //   coordinates.current.yLowerBound <= adjustedY &&
+    //   adjustedY <= coordinates.current.yUpperBound
+    // ) {
+    //   console.log("correct");
+    //   matchedItem = { ...matchedItem, found: true };
+    // } else {
+    //   console.log(matchedItem.x);
+    //   console.log(matchedItem.y);
+    //   console.log(coordinates.current.xLowerBound);
+    //   console.log(coordinates.current.xUpperBound);
+    // }
+    // setAnswers(tempArray);
   };
 
   // const reportSelection = (event) => {
