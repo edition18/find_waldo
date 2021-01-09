@@ -55,6 +55,18 @@
   overflow: hidden;
 }
 
+.marker {
+  position: absolute;
+  margin: auto;
+  border-radius: 50%;
+  background: yellow;
+  border-style: dotted;
+  border-color: white;
+  border-width: 5px;
+  z-index: 2;
+  overflow: hidden;
+}
+
 .fade_out {
   animation: fadeOut ease 3s;
   animation-fill-mode: forwards;

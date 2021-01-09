@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import ImageContainer from "./components/ImageContainer";
 import Submenu from "./components/Submenu";
 import Radius from "./components/Radius";
+import Marker from "./components/Marker";
 import firebase from "./firebase";
 
 function App() {
@@ -57,37 +58,10 @@ function App() {
     // these are for showing on screen
     coordinates.current.x = event.pageX;
     coordinates.current.y = event.pageY;
-
-    //actual calculations for if answer is correct
-    const radiiXAllowance = radii / document.getElementById("waldo").width;
-    const radiiYAllowance = radii / document.getElementById("waldo").height;
-    const Xratio =
-      event.nativeEvent.offsetX / document.getElementById("waldo").width;
-    const Yratio =
-      event.nativeEvent.offsetY / document.getElementById("waldo").height;
-    console.log(Xratio);
-    console.log(Yratio);
-    const XratioLower = Xratio - radiiXAllowance;
-    const XratioUpper = Xratio + radiiXAllowance;
-    const YratioLower = Yratio - radiiYAllowance;
-    const YratioUpper = Yratio + radiiYAllowance;
-
-    // const matchSolution = solutions.find(
-    //   (solution) => solution.name === "lion"
-    // );
-    // console.log("lion x " + matchSolution.x);
-    // if (
-    //   XratioLower <= matchSolution.x &&
-    //   matchSolution.x <= XratioUpper &&
-    //   YratioLower <= matchSolution.y &&
-    //   matchSolution.y <= YratioUpper
-    // ) {
-    //   console.log("correct");
-    //   console.log(XratioLower + " " + matchSolution.x + " " + XratioUpper);
-    //   console.log(YratioLower + " " + matchSolution.y + " " + YratioUpper);
-    // }
-    // toggleSubmenu();
-    // toggleRadius();
+    coordinates.current.xOffset = event.nativeEvent.offsetX;
+    coordinates.current.yOffset = event.nativeEvent.offsetY;
+    toggleSubmenu();
+    toggleRadius();
 
     // must provide coord
     // must toggle a state that triggers popup
@@ -116,49 +90,50 @@ function App() {
   ];
 
   const reportSelection = (event) => {
-    // console.log("selected " + event.target.innerHTML + " as answer");
-    // // find the corresponding answer in the array, then check its answer
-    // const tempArray = answers.slice();
-    // let matchedItem = tempArray.find(
-    //   (item) => item.name.toLowerCase() === event.target.innerHTML.toLowerCase()
-    // );
-    // const adjustedX = event.pageX;
-    // const adjustedY = event.pageY;
-    // if (
-    //   coordinates.current.xLowerBound <= adjustedX &&
-    //   adjustedX <= coordinates.current.xUpperBound &&
-    //   coordinates.current.yLowerBound <= adjustedY &&
-    //   adjustedY <= coordinates.current.yUpperBound
-    // ) {
-    //   console.log("correct");
-    //   matchedItem = { ...matchedItem, found: true };
-    // } else {
-    //   console.log(matchedItem.x);
-    //   console.log(matchedItem.y);
-    //   console.log(coordinates.current.xLowerBound);
-    //   console.log(coordinates.current.xUpperBound);
-    // }
-    // setAnswers(tempArray);
+    //actual calculations for if answer is correct
+    const radiiXAllowance = radii / document.getElementById("waldo").width;
+    const radiiYAllowance = radii / document.getElementById("waldo").height;
+    const Xratio =
+      coordinates.current.xOffset / document.getElementById("waldo").width;
+    const Yratio =
+      coordinates.current.yOffset / document.getElementById("waldo").height;
+
+    const XratioLower = Xratio - radiiXAllowance;
+    const XratioUpper = Xratio + radiiXAllowance;
+    const YratioLower = Yratio - radiiYAllowance;
+    const YratioUpper = Yratio + radiiYAllowance;
+    const matchSolution = answers.find(
+      (answer) => answer.name === event.target.innerHTML
+    );
+    console.log(`${event.target.innerHTML} ` + matchSolution.x);
+    if (
+      XratioLower <= matchSolution.x &&
+      matchSolution.x <= XratioUpper &&
+      YratioLower <= matchSolution.y &&
+      matchSolution.y <= YratioUpper
+    ) {
+      console.log("correct");
+      updateCorrect(event.target.innerHTML);
+      placeMarker();
+      console.log(XratioLower + " " + matchSolution.x + " " + XratioUpper);
+      console.log(YratioLower + " " + matchSolution.y + " " + YratioUpper);
+    }
+    console.log(XratioLower + " " + matchSolution.x + " " + XratioUpper);
+    console.log(YratioLower + " " + matchSolution.y + " " + YratioUpper);
   };
 
-  // const reportSelection = (event) => {
-  //   console.log("selected" + event.innerHTML + "as answer");
-  //   let correct = false;
-  //   answers.forEach((answer) => {
-  //     if (answer.name.toLowerCase() === event.target.innerHTML.toLowerCase()) {
-  //       if (
-  //         coordinates.current.xLowerBound <= answer.x &&
-  //         answer.x <= coordinates.current.xUpperBound &&
-  //         coordinates.current.yLowerBound <= answer.y &&
-  //         answer.y <= coordinates.current.yUpperBound
-  //       ) {
-  //         correct = true;
-  //       }
-  //     }
-  //   });
+  const updateCorrect = (name) => {
+    const tempArray = answers.map((answer) =>
+      answer.name.toLowerCase() === name.toLowerCase()
+        ? { ...answer, found: true }
+        : answer
+    );
+    setAnswers(tempArray);
+  };
 
-  //   correct ? console.log("correct") : console.log("incorrect");
-  // };
+  const placeMarker = () => {
+    return <div>TEST</div>;
+  };
 
   // // this is no longer needed, keeping it here for review purposes
   // // this adds the answers into the collection if it does not already exist
@@ -190,13 +165,25 @@ function App() {
         {submenu ? (
           <Submenu
             reportSelection={reportSelection}
-            answers={answers}
+            answers={answers.map((answer) =>
+              answer.found === false ? answer : ""
+            )}
             coordinates={coordinates.current}
           />
         ) : (
           ""
         )}
       </div>
+      {console.log(answers)}
+      {answers
+        ? answers.map((answer) =>
+            answer.found === true ? (
+              <Marker radii={radii} xRatio={answer.x} yRatio={answer.y} />
+            ) : (
+              ""
+            )
+          )
+        : ""}
     </Fragment>
   );
 
