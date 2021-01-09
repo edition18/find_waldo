@@ -9,7 +9,6 @@ import firebase from "./firebase";
 
 function App() {
   var db = firebase.firestore();
-
   const [answers, setAnswers] = useState([]);
   useEffect(() => {
     //populate the answers array if it isn't already populated
@@ -29,13 +28,12 @@ function App() {
       );
       setAnswers(tempArray);
     }
-
-    //check if win condition is met
-  }, [db, answers.length]);
+  }, [answers.length, db]);
 
   const [hideInstructions, setHideInstructions] = useState(true);
   const [submenu, setSubmenu] = useState(false);
   const [radius, setRadius] = useState(false);
+  const [gameover, setGameover] = useState(false);
 
   const radii = 30 / window.devicePixelRatio;
   const coordinates = useRef({
@@ -68,27 +66,6 @@ function App() {
     // https://stackoverflow.com/questions/6073505/what-is-the-difference-between-screenx-y-clientx-y-and-pagex-y
   };
 
-  const solutions = [
-    {
-      name: "lion",
-      x: 0.8444561219127693,
-      y: 0.27061105722599416,
-      correct: false,
-    },
-    {
-      name: "astronaut",
-      x: 0.1282186022070415,
-      y: 0.09117361784675072,
-      correct: false,
-    },
-    {
-      name: "hippo",
-      x: 0.2974251182343668,
-      y: 0.7070805043646945,
-      correct: false,
-    },
-  ];
-
   const reportSelection = (event) => {
     //actual calculations for if answer is correct
     const radiiXAllowance = radii / document.getElementById("waldo").width;
@@ -114,12 +91,11 @@ function App() {
     ) {
       console.log("correct");
       updateCorrect(event.target.innerHTML);
-      placeMarker();
       console.log(XratioLower + " " + matchSolution.x + " " + XratioUpper);
       console.log(YratioLower + " " + matchSolution.y + " " + YratioUpper);
+    } else {
+      console.log("incorrect");
     }
-    console.log(XratioLower + " " + matchSolution.x + " " + XratioUpper);
-    console.log(YratioLower + " " + matchSolution.y + " " + YratioUpper);
   };
 
   const updateCorrect = (name) => {
@@ -129,10 +105,25 @@ function App() {
         : answer
     );
     setAnswers(tempArray);
+    checkGameover(tempArray);
   };
 
-  const placeMarker = () => {
-    return <div>TEST</div>;
+  const checkGameover = (answers) => {
+    console.log(answers);
+    if (answers.every((answer) => answer.found === true)) {
+      setGameover(true);
+      alert("You won !");
+      resetGame();
+    }
+  };
+
+  const resetGame = () => {
+    setAnswers(
+      answers.map((answer) =>
+        answer.found === true ? { ...answer, found: false } : answer
+      )
+    );
+    setGameover(false);
   };
 
   // // this is no longer needed, keeping it here for review purposes
@@ -154,11 +145,32 @@ function App() {
   //     })
   // );
 
+  // const solutions = [
+  //   {
+  //     name: "lion",
+  //     x: 0.8444561219127693,
+  //     y: 0.27061105722599416,
+  //     correct: false,
+  //   },
+  //   {
+  //     name: "astronaut",
+  //     x: 0.1282186022070415,
+  //     y: 0.09117361784675072,
+  //     correct: false,
+  //   },
+  //   {
+  //     name: "hippo",
+  //     x: 0.2974251182343668,
+  //     y: 0.7070805043646945,
+  //     correct: false,
+  //   },
+  // ];
+
   const display = (
     <Fragment>
       {radius ? <Radius radii={radii} coordinates={coordinates.current} /> : ""}
 
-      <Navbar toggle={hideInstructionsToggle} />
+      <Navbar gameover={gameover} toggle={hideInstructionsToggle} />
       {!hideInstructions && <Popup toggle={hideInstructionsToggle} />}
       <div onClick={handleClick}>
         <ImageContainer toggleSubmenu={toggleSubmenu} />
@@ -174,7 +186,6 @@ function App() {
           ""
         )}
       </div>
-      {console.log(answers)}
       {answers
         ? answers.map((answer) =>
             answer.found === true ? (

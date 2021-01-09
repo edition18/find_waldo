@@ -1,23 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Timer from "./Timer";
 
 const Navbar = (props) => {
   const display = (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="#">
+      <a className="navbar-brand mr-auto" href="#">
         Find Waldo
       </a>
 
-      <ul className="navbar-nav mr-auto">
-        <li className="nav-item active">
-          <a className="nav-link" href="#">
-            Home <span className="sr-only">(current)</span>
-          </a>
-        </li>
+      <ul className="navbar-nav mr-auto center">
         <li className="nav-item">
-          <a className="nav-link" href="#">
-            Link
-          </a>
+          <Timer gameover={props.gameover} />
         </li>
       </ul>
 

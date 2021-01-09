@@ -6,7 +6,12 @@ const Popup = (props) => {
     <Fragment>
       <div className="popup">
         <div className="popup_inner">
-          <h1>Find the Lion (actual animal), the Astronaut, and the Hippo</h1>
+          <ul>
+            FInd
+            <li>Lion</li>
+            <li>Astronaut</li>
+            <li>Hippo</li>
+          </ul>
           <button onClick={props.toggle}>close me</button>
         </div>
       </div>
