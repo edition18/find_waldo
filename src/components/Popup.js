@@ -7,7 +7,7 @@ const Popup = (props) => {
       <div className="popup">
         <div className="popup_inner">
           <ul>
-            FInd
+            <strong>Find the below</strong>
             <li>Lion</li>
             <li>Astronaut</li>
             <li>Hippo</li>
