@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/find_waldo/static/css/main.b25205d0.chunk.css",
-    "main.js": "/find_waldo/static/js/main.193d364b.chunk.js",
-    "main.js.map": "/find_waldo/static/js/main.193d364b.chunk.js.map",
+    "main.js": "/find_waldo/static/js/main.5073b950.chunk.js",
+    "main.js.map": "/find_waldo/static/js/main.5073b950.chunk.js.map",
     "runtime-main.js": "/find_waldo/static/js/runtime-main.43652fcc.js",
     "runtime-main.js.map": "/find_waldo/static/js/runtime-main.43652fcc.js.map",
     "static/css/2.95f25948.chunk.css": "/find_waldo/static/css/2.95f25948.chunk.css",
-    "static/js/2.077281b0.chunk.js": "/find_waldo/static/js/2.077281b0.chunk.js",
-    "static/js/2.077281b0.chunk.js.map": "/find_waldo/static/js/2.077281b0.chunk.js.map",
+    "static/js/2.354c9450.chunk.js": "/find_waldo/static/js/2.354c9450.chunk.js",
+    "static/js/2.354c9450.chunk.js.map": "/find_waldo/static/js/2.354c9450.chunk.js.map",
     "index.html": "/find_waldo/index.html",
     "static/css/2.95f25948.chunk.css.map": "/find_waldo/static/css/2.95f25948.chunk.css.map",
     "static/css/main.b25205d0.chunk.css.map": "/find_waldo/static/css/main.b25205d0.chunk.css.map",
-    "static/js/2.077281b0.chunk.js.LICENSE.txt": "/find_waldo/static/js/2.077281b0.chunk.js.LICENSE.txt",
+    "static/js/2.354c9450.chunk.js.LICENSE.txt": "/find_waldo/static/js/2.354c9450.chunk.js.LICENSE.txt",
     "static/media/waldo.b67b3021.jpg": "/find_waldo/static/media/waldo.b67b3021.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.43652fcc.js",
     "static/css/2.95f25948.chunk.css",
-    "static/js/2.077281b0.chunk.js",
+    "static/js/2.354c9450.chunk.js",
     "static/css/main.b25205d0.chunk.css",
-    "static/js/main.193d364b.chunk.js"
+    "static/js/main.5073b950.chunk.js"
   ]
 }
